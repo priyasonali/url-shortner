@@ -1,4 +1,21 @@
-
+<?php
+if(!isset($_GET['new']) || isset($_GET['short'])){
+$short = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+require './app/redirect.php';
+}else{
+$uri = $_GET['new'];
+preg_match('/^(https?):\/\/?(.+)$/' ,$uri, $match);
+$uri = "${match[1]}://${match[2]}";
+require './app/urlshort.php';
+}
+//if(isset($_REQUEST['new'])) echo $_REQUEST['new'];
+/*$arr = array();
+$actual_link = '/new/something';
+preg_match('/^\/new\/(.+)$/', $actual_link, $arr);
+echo $arr[1];
+*/
+if(!$result_json){
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,7 +23,8 @@
         <meta http-equiv='X-UA-Compatible' content='IE=edge'>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <title>URL Shortener</title>
-        <link rel="stylesheet" href="./styles/style.css">
+        <base href="http://localhost/url-shortner/">
+        <link rel="stylesheet" href="./app/styles/style.css">
     </head>
     <body>
         <main class="container">
@@ -16,7 +34,7 @@
 
             <p class="lead">
 
-                An API for generating URL shortner. 
+                A small API for generating URL shortner. 
         
             </p>
 
@@ -49,3 +67,4 @@
         </main>
   </body>
 </html>
+<?php } ?>
